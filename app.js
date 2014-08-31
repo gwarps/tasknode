@@ -4,10 +4,11 @@ var logger = require('morgan');
 var bodyParser = require('body-parser')
 var MongoClient = require('mongodb').MongoClient;
 
+
 var port = process.env.PORT || 3000
 
 // get index routes
-var index = require('./routes/index');
+//var index = require('./routes/index');
 //var task = require('./routes/task');
 
 var MONGO_SERVER_URL = "mongodb://slc05akl.us.oracle.com:27017";
@@ -15,7 +16,7 @@ var DB_INSTANCE = "journal"
 var CONNECT_STRING = MONGO_SERVER_URL + "/" + DB_INSTANCE;
 
 var app = express();
-
+var routes = require('./routes');
 
 MongoClient.connect(CONNECT_STRING, function(err, db) {
   // setup view engine
@@ -27,10 +28,10 @@ MongoClient.connect(CONNECT_STRING, function(err, db) {
    app.use(bodyParser.urlencoded({extended: true}));
    app.use(require('stylus').middleware(path.join(__dirname, 'public')));
    app.use(express.static(path.join(__dirname, 'public')));
-   
+   routes(app, db);
    
    // setting resourceful routes
-   app.use('/', index);
+   //app.use('/', index);
    //app.use('/task', task);
    
    //app.get('/', function(req, res){
