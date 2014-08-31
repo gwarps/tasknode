@@ -29,16 +29,37 @@ function TasksDAO(db) {
    }
 
 
-   this.getTaskByID = function(_id, callback) {
+   this.getTaskByID = function(query, callback) {
       "use strict";
-       var query = {_id : new ObjectID(_id)};
-       tasks.findOne(query, function(err, task) {
-          "use strict";
-          if (err) return callback(err, null);
+      //var query = {_id : new ObjectID(_id)};
+      tasks.findOne(query, function(err, task) {
+         "use strict";
+         if (err) return callback(err, null);
 
-          callback(err, task);
-       });
+         callback(err, task);
+      });
    }
+
+   this.createTask = function(doc, callback) {
+      "use strict";
+      tasks.insert(doc, function(err, inserted) {
+         if (err) return callback(err, null);
+         console.log("Successfully inserted: " + JSON.stringify(inserted));
+        
+         callback(err, inserted);
+      });
+   }
+
+   this.deleteTask = function(query, callback) {
+      "use strict";
+      //var query = {_id : new ObjectID(_id)};
+      tasks.remove(query, function(err, removed) {
+         if (err) throw err;
+         console.log("successfully removed " + removed + " documents");
+      });
+   }
+
+
 }
 
 
