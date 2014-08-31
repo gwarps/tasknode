@@ -1,4 +1,4 @@
-/* The PostsDAO must be constructed with a connected database object */
+/* The TasksDAO must be constructed with a connected database object */
 var ObjectID = require('mongodb').ObjectID;
 
 function TasksDAO(db) {
