@@ -1,0 +1,45 @@
+extends ../layouts/basic
+
+block main_content
+   div(class="container")
+    div(class="jumbotron")
+      h2 Task Details
+
+    div(class="panel panel-primary")
+      div(class="panel-heading") 
+        h4 Task Code #{task._id}
+      div(class="panel-body")
+        table(class="table table-striped")
+          tr
+            td "_id"
+            td "#{task._id}"
+          tr
+            td "Task Code"
+            td "#{task.taskCode}
+          tr
+            td "Task Sub Code"
+            td "#{task.taskSubCode}"
+          tr
+            td "Task Description"
+            td "#{task.taskDesc}
+          tr
+            td "Created"
+            td "#{task.created}"
+          tr
+            td "Last Updated"
+            td "#{task.updated}"
+        button(type="button" data-id="#{task._id}" class="btn btn-primary" id="task-update-btn") Update
+        //div(class="col-lg-1 col-md-1 hidden-sm hidden-xs")
+        button(type="button" data-id="#{task._id}" class="btn btn-danger" id="task-delete-btn") Delete
+        
+block external_javascript
+  script(type="text/javascript").
+    $(document).ready(function() {
+      $("#task-delete-btn").on("click", function(event){
+        //event.preventDefault();
+        $.ajax('http://slc05akl.us.oracle.com:3000/task' + "/" + $("#task-delete-btn").data("id").toString(), {
+          type: 'DELETE',
+          dataType: 'json'
+        });
+      });
+    }); 

@@ -1,0 +1,82 @@
+extends ../layouts/basic
+
+block main_content
+   div(class="container")
+    div(class="jumbotron")
+      h2 Post List
+      button(type="button", class="btn btn-primary", data-toggle="modal", data-target="#createTask" disabled) Create Post
+      div(class="modal fade bs-example-modal-lg", id="createTask", tabindex="-1", role="dialog", aria-labelledby="createTaskLabel", aria-hidden="true")
+        div(class="modal-dialog modal-lg")
+          div(class="modal-content")
+            div(class="modal-header")
+              button(type="button", class="close", data-dismiss="modal")
+                span(aria-hidden="true") &times;
+                span(class="sr-only") Close
+              h4(class="modal-title" id="createTaskLabel") Create a Post
+            div(class="modal-body")
+            form(id="taskForm" role="form" class="form-horizontal" action="http://slc05akl.us.oracle.com:3000/post" method="POST")
+              div(class="form-group")
+                label(for="inputTaskCode" class="col-lg-3 control-label") Task Code
+                div(class="col-lg-6")
+                  input(type="text" class="form-control" id="inputTaskCode" placeholder="Task Code" name="taskCode")
+
+              div(class="form-group")
+                label(for="inputTaskSubCode" class="col-lg-3 control-label") Sub Code
+                div(class="col-lg-6")
+                  input(type="text" class="form-control" id="inputTaskSubCode" placeholder="Task Sub Code" name="taskSubCode")
+              div(class="form-group")
+                label(for="inputTaskSubCode" class="col-lg-3 control-label") Description
+                div(class="col-lg-6")
+                  textarea(class="form-control" id="inputTaskSubCode" rows="3" name="taskDescription")
+
+            div(class="modal-footer")
+              button(type="button" class="btn btn-success save-task" data-dismiss="modal") Save Task
+              button(type="button" class="btn btn-default" data-dismiss="modal") Close
+    div(class="panel panel-default")
+      div(class="panel-heading") Post List
+      div(class="panel-body")
+        table(class="table table-striped")
+          thead
+            tr
+              th Code
+              th Sub Code
+              th Tags
+              th Created
+              th Last Updated
+          tbody
+            each post in posts
+              tr
+                td #{post.taskCode}
+                td #{post.taskSubCode}
+                td #{post.tags}
+                td #{post.created}
+                td #{post.updated}
+                td
+                  a(href="http://slc05akl.us.oracle.com:3000/post/edit/#{post._id}" class="btn btn-primary") Edit Post
+                td
+                  a(href="#" class="btn btn-danger delete-post" data-id="#{post._id}") Delete
+
+             
+block external_javascript
+  script(type="text/javascript").
+    $(document).ready(function() {
+      $(".save-task").on("click", function(event){
+        //event.preventDefault();
+        console.log("task clickeD");
+        $.ajax('http://slc05akl.us.oracle.com:3000/task', {
+          type: 'POST',
+          data: $('form#taskForm').serialize(),
+          dataType: 'json'
+        });
+      });
+
+      $(".delete-post").on("click", function(event){
+        //event.preventDefault();
+        console.log("post clickeD");
+        $.ajax('http://slc05akl.us.oracle.com:3000/post' + "/" + $(".delete-post").data("id").toString(), {
+          type: 'DELETE',
+          dataType: 'json'
+        });
+      });
+
+    }); 
