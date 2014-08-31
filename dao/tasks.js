@@ -6,9 +6,9 @@ function TasksDAO(db) {
 
    /* If this constructor is called without the "new" operator, "this" points
     * to the global object. Log a warning and call it correctly. */
-   if (false === (this.instanceOf TasksDAO)) {
+   if (false === (this instanceof TasksDAO)) {
       console.log("Warning: TasksDAO constructor called without new operator");
-      return new TasksDAO("tasks");
+      return new TasksDAO(db);
    }
 
 
