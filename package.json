@@ -1,0 +1,16 @@
+{ 
+  "name": "appmr",
+  "description": "appraisal entry app",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "4.x.x",
+    "connect": "2.x.x",
+    "express-generator" : "4.2.x",
+    "morgan" : "1.2.3",
+    "jade" : "1.5.x",
+    "body-parser" : "1.6.5",
+    "stylus" : "0.48.1",
+    "mongodb" : "1.4.9"
+  }
+}

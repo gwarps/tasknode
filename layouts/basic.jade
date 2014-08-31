@@ -1,0 +1,36 @@
+doctype html
+html(lang="en")
+ head
+  meta(charset='utf-8')
+  meta(http-equiv='X-UA-Compatible', content='IE=edge')
+  meta(name='viewport', content='width=device-width, initial-scale=1')
+
+  title #{title] - My Site
+  link(rel='stylesheet', href='/stylesheets/bootstrap/bootstrap.min.css')
+
+
+ body
+   div(class="navbar navbar-default navbar-fixed-top" role="navigation")
+     div(class="container")
+      div(class="navbar-header")
+        button(type="button", class="navbar-toggle", data-toggle="collapse", data-target=".navbar-collapse")
+          span(class="sr-only") Toggle Navigation
+          span(class="icon-bar")
+          span(class="icon-bar")
+          span(class="icon-bar")
+        a(class="navbar-brand", href="#") BugDB
+      div(class="navbar-collapse collapse")
+        ul(class="nav navbar-nav")
+          li(class="active")
+            a(href="#") Reports
+          li
+            a(href="#") Entry
+   block main_content
+     div(class="container")
+       div(class="jumbotron")
+         h1 This is sample page
+         p This example is a quick exercise to illustrate how the default, static and fixed to top navbar work.
+
+   script(type='text/javascript', src='/javascripts/jquery/1.11.1/jquery.min.js')
+   script(type='text/javascript', src='/javascripts/bootstrap/bootstrap.min.js')
+   block external_javascript

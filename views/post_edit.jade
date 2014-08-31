@@ -1,0 +1,33 @@
+extends ../layouts/basic
+
+block main_content
+  div(class="container")
+    div(class="jumbotron")
+      h2 Post Edit
+
+    div(class="panel primary-panel")
+      div(class="panel-heading")
+        h4 Edit Post Details
+      div(class="panel-body")
+        form(id="postForm" role="form" class="form-horizontal" action="http://slc05akl.us.oracle.com:3000/post/edit/#{post._id}" method="POST")
+          div(class="form-group")
+            label(for="inputPostTaskCode" class="col-lg-3 control-label") Task Code
+            div(class="col-lg-6")
+              input(type="text" class="form-control" id="inputPostTaskCode" placeholder="Task Code" name="taskCode" readonly value="#{post.taskCode}")
+          div(class="form-group")
+            label(for="inputPostTaskSubCode" class="col-lg-3 control-label") Task Sub Code
+            div(class="col-lg-6")
+              input(type="text" class="form-control" id="inputPostTaskSubCode" placeholder="Task Code" name="taskSubCode" readonly value="#{post.taskSubCode}")
+          div(class="form-group")
+            label(for="inputPostText" class="col-lg-3 control-label") Post Text
+            div(class="col-lg-6")
+              textarea(class="form-control" id="inputPostText" rows="8" name="postText") #{post.postText}
+          div(class="form-group")
+            label(for="inputPostTags" class="col-lg-3 control-label") Tags
+            div(class="col-lg-6")
+              input(type="text" class="form-control" id="inputPostTags" name="postTags" value="#{post.tags}")
+          div(class="form-group")
+            button(type="submit" class="btn btn-success save-post" data-dismiss="modal") Save Task
+
+
+

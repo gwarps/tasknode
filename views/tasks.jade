@@ -1,0 +1,119 @@
+extends ../layouts/basic
+
+block main_content
+   div(class="container")
+    div(class="jumbotron")
+      h2 Task List
+      button(type="button", class="btn btn-primary", data-toggle="modal", data-target="#createTask" ) Create Task
+      div(class="modal fade bs-example-modal-lg", id="createTask", tabindex="-1", role="dialog", aria-labelledby="createTaskLabel", aria-hidden="true")
+        div(class="modal-dialog modal-lg")
+          div(class="modal-content")
+            div(class="modal-header")
+              button(type="button", class="close", data-dismiss="modal")
+                span(aria-hidden="true") &times;
+                span(class="sr-only") Close
+              h4(class="modal-title" id="createTaskLabel") Create a Task
+            div(class="modal-body")
+              form(id="taskForm" role="form" class="form-horizontal" action="http://slc05akl.us.oracle.com:3000/task" method="POST")
+                div(class="form-group")
+                  label(for="inputTaskCode" class="col-lg-3 control-label") Task Code
+                  div(class="col-lg-6")
+                    input(type="text" class="form-control" id="inputTaskCode" placeholder="Task Code" name="taskCode")
+
+                div(class="form-group")
+                  label(for="inputTaskSubCode" class="col-lg-3 control-label") Sub Code
+                  div(class="col-lg-6")
+                    input(type="text" class="form-control" id="inputTaskSubCode" placeholder="Task Sub Code" name="taskSubCode")
+                div(class="form-group")
+                  label(for="inputTaskDescription" class="col-lg-3 control-label") Description
+                  div(class="col-lg-6")
+                    textarea(class="form-control" id="inputTaskDescription" rows="3" name="taskDescription")
+
+            div(class="modal-footer")
+              button(type="button" class="btn btn-success save-task" data-dismiss="modal") Save Task
+              button(type="button" class="btn btn-default" data-dismiss="modal") Close
+    div(class="panel panel-default")
+      div(class="panel-heading") Tasks List
+      div(class="panel-body")
+        table(class="table table-striped")
+          thead
+            tr
+              th Code
+              th Sub Code
+          tbody
+            each task in tasks
+              tr
+                td #{task.taskCode}
+                td #{task.taskSubCode}
+                td
+                  a(href="http://slc05akl.us.oracle.com:3000/task/#{task._id}" class="btn btn-primary") View Details
+                td
+                  button(type="button" data-toggle="modal" data-target="#createPost" class="btn btn-success createPostBtn" data-c="#{task.taskCode}" data-sc="#{task.taskSubCode}") Create Post
+                  
+                td
+                  a(href="#" class="btn btn-danger" data-id="#{task._id}") Delete
+      div(class="modal fade bs-example-modal-lg", id="createPost", tabindex="-1", role="dialog", aria-labelledby="createPostLabel", aria-hidden="true")
+                    div(class="modal-dialog modal-lg")
+                      div(class="modal-content")
+                        div(class="modal-header")
+                          button(type="button" class="close" data-dismiss="modal")
+                            span(aria-hidden="true") &times;
+                            span(class="sr-only") Close
+                          h4(class="modal-title" id="createPostLabel") Create a Post
+                        div(class="modal-body")
+                          form(id="postForm" role="form" class="form-horizontal" action="#" method="POST")
+                            div(class="form-group")
+                              label(for="inputPostTaskCode" class="col-lg-3 control-label") Task Code
+                              div(class="col-lg-6")
+                                input(type="text" class="form-control" id="inputPostTaskCode" placeholder="Task Code" name="taskCode" readonly)
+                            div(class="form-group")
+                              label(for="inputPostTaskSubCode" class="col-lg-3 control-label") Task Sub Code
+                              div(class="col-lg-6")
+                                input(type="text" class="form-control" id="inputPostTaskSubCode" placeholder="Task Code" name="taskSubCode" readonly)
+                            div(class="form-group")
+                              label(for="inputPostText" class="col-lg-3 control-label") Post Text
+                              div(class="col-lg-6")
+                                textarea(class="form-control" id="inputPostText" rows="8" name="postText")
+                            div(class="form-group")
+                              label(for="inputPostTags" class="col-lg-3 control-label") Tags
+                              div(class="col-lg-6")
+                                input(type="text" class="form-control" id="inputPostTags" name="postTags")
+                           
+
+                        div(class="modal-footer")
+                           button(type="button" class="btn btn-success save-post" data-dismiss="modal") Save Task
+                           button(type="button" class="btn btn-default" data-dismiss="modal") Close
+
+             
+block external_javascript
+  script(type="text/javascript").
+    $(document).ready(function() {
+      $(".save-task").on("click", function(event){
+        //event.preventDefault();
+        console.log("task clickeD");
+        $.ajax('http://slc05akl.us.oracle.com:3000/task', {
+          type: 'POST',
+          data: $('form#taskForm').serialize(),
+          dataType: 'json'
+        });
+      });
+
+
+      $(".save-post").on("click", function(event){
+        //event.preventDefault();
+        console.log("task clicked");
+        $.ajax('http://slc05akl.us.oracle.com:3000/post', {
+          type: 'POST',
+          data: $('form#postForm').serialize(),
+          dataType: 'json'
+        });
+      });
+
+      $(".createPostBtn").on("click", function(event) {
+         event.preventDefault();
+         $("#inputPostTaskCode").val($(this).data("c"));
+         $("#inputPostTaskSubCode").val($(this).data("sc"));
+         $("#inputPostText").val("");
+         $("#inputPostTags").val("");
+      });
+    }); 
