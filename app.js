@@ -3,7 +3,9 @@ var path = require('path');
 var logger = require('morgan');
 var bodyParser = require('body-parser')
 var MongoClient = require('mongodb').MongoClient;
-
+var flash = require('connect-flash');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 
 var port = process.env.PORT || 3000
 
@@ -28,6 +30,12 @@ MongoClient.connect(CONNECT_STRING, function(err, db) {
    app.use(bodyParser.urlencoded({extended: true}));
    app.use(require('stylus').middleware(path.join(__dirname, 'public')));
    app.use(express.static(path.join(__dirname, 'public')));
+
+   app.use(cookieParser('secret'));
+   app.use(session({ cookie: { maxAge: 60000 }}));
+   app.use(flash());   
+
+
    routes(app, db);
    
    // setting resourceful routes
