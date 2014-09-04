@@ -18,15 +18,20 @@ html(lang="en")
           span(class="icon-bar")
           span(class="icon-bar")
           span(class="icon-bar")
-        a(class="navbar-brand", href="#") BugDB
+        a(class="navbar-brand", href="http://slc05akl.us.oracle.com:3000") BugDB
       div(class="navbar-collapse collapse")
         ul(class="nav navbar-nav")
           li(class="active")
             a(href="http://slc05akl.us.oracle.com:3000/tasks") Tasks
           li
             a(href="http://slc05akl.us.oracle.com:3000/posts") Posts
+    
+   if message && message.length
+     div(class="page-header text-center")
+       div( href="#", class="alert alert-success", role="alert") #{message}
    block main_content
      div(class="container")
+       //if message && message.length
        div(class="jumbotron")
          h1 This is sample page
          p This example is a quick exercise to illustrate how the default, static and fixed to top navbar work.
