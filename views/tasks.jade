@@ -91,11 +91,12 @@ block external_javascript
       $(".save-task").on("click", function(event){
         //event.preventDefault();
         console.log("task clickeD");
-        $.ajax('http://slc05akl.us.oracle.com:3000/task', {
-          type: 'POST',
-          data: $('form#taskForm').serialize(),
-          dataType: 'json'
-        });
+        //$.ajax('http://slc05akl.us.oracle.com:3000/task', {
+        //  type: 'POST',
+        //  data: $('form#taskForm').serialize(),
+        //  dataType: 'json'
+        //});
+        $('form#taskForm').submit();
       });
 
 
