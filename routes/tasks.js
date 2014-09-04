@@ -7,7 +7,7 @@ module.exports = function(app, db) {
    app.get("/tasks", function(req, res, next) {
       tasks.getTasks({}, function(err, docs) {
          if (err) throw err;
-         res.render("tasks", {"tasks" : docs});
+         res.render("tasks", {"tasks" : docs, message : req.flash('info')});
       });
    });
 
@@ -33,7 +33,9 @@ module.exports = function(app, db) {
                    "updated": new Date()
                 };
       tasks.createTask(doc, function(err, inserted) {
-         console.log("redirection for task update pending");
+         // console.log("redirection for task update pending");
+         req.flash('info', 'Task created under task code: ' + taskCode);
+         res.redirect('/tasks');
       });
    });
 
