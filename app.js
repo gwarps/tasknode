@@ -7,13 +7,20 @@ var flash = require('connect-flash');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 
-var port = process.env.PORT || 3000
+// Customized for openshift
+//var port = process.env.PORT || 3000
+var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080
+var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
 
 // get index routes
 //var index = require('./routes/index');
 //var task = require('./routes/task');
 
 var MONGO_SERVER_URL = "mongodb://slc05akl.us.oracle.com:27017";
+if(process.env.OPENSHIFT_MONGODB_DB_URL) {
+   MONGO_SERVER_URL = process.env.OPENSHIFT_MONGODB_DB_URL;
+}
+
 var DB_INSTANCE = "journal"
 var CONNECT_STRING = MONGO_SERVER_URL + "/" + DB_INSTANCE;
 
@@ -64,7 +71,8 @@ MongoClient.connect(CONNECT_STRING, function(err, db) {
    }
 
 
-   var server = app.listen(port, function() {
-      console.log('Listening on port %d', server.address().port);
+   var server = app.listen(server_port, server_ip_address,  function() {
+      //console.log('Listening on port %d', server.address().port);
+      console.log("Listening on " + server_ip_address + ", server_port " + port);
    });
 });
