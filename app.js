@@ -16,7 +16,7 @@ var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
 //var index = require('./routes/index');
 //var task = require('./routes/task');
 
-var MONGO_SERVER_URL = "mongodb://slc05akl.us.oracle.com:27017";
+var MONGO_SERVER_URL = "mongodb://localhost:27017";
 if(process.env.OPENSHIFT_MONGODB_DB_URL) {
    MONGO_SERVER_URL = process.env.OPENSHIFT_MONGODB_DB_URL;
 }
@@ -73,6 +73,6 @@ MongoClient.connect(CONNECT_STRING, function(err, db) {
 
    var server = app.listen(server_port, server_ip_address,  function() {
       //console.log('Listening on port %d', server.address().port);
-      console.log("Listening on " + server_ip_address + ", server_port " + port);
+      console.log("Listening on " + server_ip_address + ", server_port " + server_port);
    });
 });
