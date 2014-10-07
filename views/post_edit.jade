@@ -9,7 +9,7 @@ block main_content
       div(class="panel-heading")
         h4 Edit Post Details
       div(class="panel-body")
-        form(id="postForm" role="form" class="form-horizontal" action="http://slc05akl.us.oracle.com:3000/post/edit/#{post._id}" method="POST")
+        form(id="postForm" role="form" class="form-horizontal" action="/post/edit/#{post._id}" method="POST")
           div(class="form-group")
             label(for="inputPostTaskCode" class="col-lg-3 control-label") Task Code
             div(class="col-lg-6")

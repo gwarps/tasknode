@@ -90,7 +90,7 @@ module.exports = function(app, db) {
          posts.updatePost(query, doc, function(err, updated) {
             console.log("Successfully updated " + updated + " document!");
          });
-         res.redirect("http://slc05akl.us.oracle.com:3000/posts");
+         res.redirect("/posts");
       }); 
    });
 

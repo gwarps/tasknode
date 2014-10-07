@@ -52,7 +52,7 @@ block main_content
                 td #{post.created}
                 td #{post.updated}
                 td
-                  a(href="http://slc05akl.us.oracle.com:3000/post/edit/#{post._id}" class="btn btn-primary") Edit Post
+                  a(href="/post/edit/#{post._id}" class="btn btn-primary") Edit Post
                 td
                   a(href="#" class="btn btn-danger delete-post" data-id="#{post._id}") Delete
 
@@ -63,7 +63,7 @@ block external_javascript
       $(".save-task").on("click", function(event){
         //event.preventDefault();
         console.log("task clickeD");
-        $.ajax('http://slc05akl.us.oracle.com:3000/task', {
+        $.ajax('/task', {
           type: 'POST',
           data: $('form#taskForm').serialize(),
           dataType: 'json'
@@ -73,7 +73,7 @@ block external_javascript
       $(".delete-post").on("click", function(event){
         //event.preventDefault();
         console.log("post clickeD");
-        $.ajax('http://slc05akl.us.oracle.com:3000/post' + "/" + $(".delete-post").data("id").toString(), {
+        $.ajax('/post' + "/" + $(".delete-post").data("id").toString(), {
           type: 'DELETE',
           dataType: 'json'
         });
