@@ -37,7 +37,7 @@ block external_javascript
     $(document).ready(function() {
       $("#task-delete-btn").on("click", function(event){
         //event.preventDefault();
-        $.ajax('http://slc05akl.us.oracle.com:3000/task' + "/" + $("#task-delete-btn").data("id").toString(), {
+        $.ajax('/task' + "/" + $("#task-delete-btn").data("id").toString(), {
           type: 'DELETE',
           dataType: 'json'
         });
