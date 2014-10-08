@@ -23,5 +23,5 @@
     "test1" : "node_modules/mocha/bin/mocha -w",
     "test" : "node_modules/mocha/bin/mocha"
   },
-  "main": "app.js"
+  "main" : "app.js"
 }
