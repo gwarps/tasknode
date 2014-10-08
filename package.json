@@ -19,9 +19,9 @@
     "should" : "4.0.4"
   },
   "scripts" : {
-    "start" : "node server.js",
+    "start" : "node app.js",
     "test1" : "node_modules/mocha/bin/mocha -w",
     "test" : "node_modules/mocha/bin/mocha"
   },
-  "main": "server.js"
+  "main": "app.js"
 }
