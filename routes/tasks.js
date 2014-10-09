@@ -1,13 +1,16 @@
 var TasksDAO = require("../dao/tasks").TasksDAO;
 var ObjectID = require('mongodb').ObjectID;
 
+var Task = require("../models/task");
+
+
 module.exports = function(app, db) {
    var tasks = new TasksDAO(db);
 
    app.get("/tasks", function(req, res, next) {
-      tasks.getTasks({}, function(err, docs) {
+      Task.find({}, function(err, tasks) {
          if (err) throw err;
-         res.render("tasks", {"tasks" : docs, message : req.flash('info')});
+         res.render("tasks", {"tasks": tasks, message: req.flash('info')});
       });
    });
 
