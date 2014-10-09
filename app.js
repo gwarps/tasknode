@@ -6,6 +6,8 @@ var MongoClient = require('mongodb').MongoClient;
 var flash = require('connect-flash');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+var mongoose = require('mongoose');
+
 
 // Customized for openshift
 //var port = process.env.PORT || 3000
@@ -26,6 +28,29 @@ var CONNECT_STRING = MONGO_SERVER_URL + "/" + DB_INSTANCE;
 
 var app = express();
 var routes = require('./routes');
+
+// mongoose connection management
+mongoose.connect(CONNECT_STRING);
+mongoose.connection.on('connected', function() {
+   console.log("Mongoose default connection open now");
+});
+
+mongoose.connection.on('error',function (err) {
+   console.log('Mongoose default connection error: ' + err);
+});
+
+mongoose.connection.on('disconnected', function () {
+   console.log('Mongoose default connection disconnected');
+});
+
+process.on('SIGINT', function() {
+   mongoose.connection.close(function () {
+      console.log('Mongoose default connection disconnected through app termination');
+      process.exit(0);
+   });
+});
+
+
 
 MongoClient.connect(CONNECT_STRING, function(err, db) {
   // setup view engine
