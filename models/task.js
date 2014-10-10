@@ -3,7 +3,6 @@ var mongoose = require('mongoose')
    ,ObjectId = Schema.ObjectId;
 
 var taskSchema = new Schema({
-   _id: ObjectId,
    taskCode: {type: String},
    taskSubCode: {type: String},
    taskDesc: {type: String},
