@@ -1,11 +1,7 @@
-var TasksDAO = require("../dao/tasks").TasksDAO;
-var ObjectID = require('mongodb').ObjectID;
-
 var Task = require("../models/task");
 
 
 module.exports = function(app, db) {
-   var tasks = new TasksDAO(db);
 
    app.get("/tasks", function(req, res, next) {
       Task.find({}, function(err, docs) {
@@ -20,35 +16,39 @@ module.exports = function(app, db) {
          if (err) throw err;
          res.render("task", {"task": doc});
       });
-      
-
    });
 
    app.post("/task", function(req, res, next) {
-      var taskCode = req.body.taskCode;
-      var taskSubCode = req.body.taskSubCode;
-      var taskDesc = req.body.taskDescription;
+      var task = new Task();
 
-      var doc = {
-                   "taskCode": taskCode,
-                   "taskSubCode": taskSubCode,
-                   "taskDesc": taskDesc,
-                   "created": new Date(),
-                   "updated": new Date()
-                };
-      tasks.createTask(doc, function(err, inserted) {
-         // console.log("redirection for task update pending");
-         req.flash('info', 'Task created under task code: ' + taskCode);
+      task.taskCode = req.body.taskCode;
+      task.taskSubCode = req.body.taskSubCode;
+      task.taskDesc = req.body.taskDescription;
+      task.created = new Date();
+      task.updated = new Date();
+
+      console.log(task);
+
+      task.save(function(err, doc, noDocsAffected) {
+         if (err) {
+            req.flash('info', 'Oops. seems to be some problem: ' + err);
+            console.log(err);
+         } else {
+            req.flash('info', 'Task created under task code: ' + task.taskCode);
+         }
          res.redirect('/tasks');
       });
    });
 
+
+   /**
+   Delete task from the task list
+   **/
    app.delete("/task/:id", function(req, res, next) {
-      var query = {_id: new ObjectID(req.params.id)};
-      tasks.deleteTask(query, function(err, removed) {
+      Task.findByIdAndRemove(req.params.id, function(err) {
+         if (err) throw err;
          console.log("redirection pending again");
       }); 
-
    }); 
 
 }
