@@ -8,19 +8,20 @@ module.exports = function(app, db) {
    var tasks = new TasksDAO(db);
 
    app.get("/tasks", function(req, res, next) {
-      Task.find({}, function(err, tasks) {
+      Task.find({}, function(err, docs) {
          if (err) throw err;
-         res.render("tasks", {"tasks": tasks, message: req.flash('info')});
+         res.render("tasks", {"tasks": docs, message: req.flash('info')});
       });
    });
 
    app.get("/task/:id", function(req, res, next) {
-      //var _id = req.params.id;
-      var query = {_id: new ObjectID(req.params.id)};
-      tasks.getTaskByID(query, function(err, doc) {
+      var query = {_id: req.params.id};
+      Task.findOne(query, function(err, doc) {
          if (err) throw err;
-         res.render("task", {"task" :  doc});
+         res.render("task", {"task": doc});
       });
+      
+
    });
 
    app.post("/task", function(req, res, next) {
