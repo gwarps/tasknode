@@ -72,8 +72,8 @@ block external_javascript
 
       $(".delete-post").on("click", function(event){
         //event.preventDefault();
-        console.log("post clickeD");
-        $.ajax('/post' + "/" + $(".delete-post").data("id").toString(), {
+        //console.log("post clickeD");
+        $.ajax('/post' + "/" + $(this).data("id").toString(), {
           type: 'DELETE',
           dataType: 'json'
         });
