@@ -1,3 +1,6 @@
+/**
+* This file is isolated and not in use anymore in main project
+**/
 /* The PostsDAO must be constructed with a connected database object */
 var ObjectID = require('mongodb').ObjectID;
 
