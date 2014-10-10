@@ -1,21 +1,29 @@
 var PostsDAO = require("../dao/posts").PostsDAO;
 var ObjectID = require('mongodb').ObjectID;
 
+var Post = require('../models/post');
+
 module.exports = function(app, db) {
    var posts = new PostsDAO(db);
-
+   /**
+   * GET all posts
+   **/
    app.get("/posts", function(req, res, next) {
-      posts.getPosts({}, function(err, docs) {
+      Post.find({}, function(err, docs) {
          if (err) throw err;
          res.render("posts", {"posts" : docs});    
       });
    });
 
-
+   /**
+   * GET a post by id, where id is object id (_id)
+   **/
    app.get("/post/edit/:id", function(req, res, next) {
-      var query = {_id: new ObjectID(req.params.id)};
+     "use strict";  
+   
+      var query = {_id: req.params.id};
 
-      posts.getPostByID(query, function(err, doc) {
+      Post.findOne(query, function(err, doc) {
          if (err) throw err;
 
          doc.tags = doc.tags.join().toString();
@@ -23,17 +31,24 @@ module.exports = function(app, db) {
       });
    });
 
+   /**
+   * POST data for a post to create a post
+   **/
    app.post("/post", function(req, res, next) {
       "use strict";
-      var taskCode = req.body.taskCode;
-      var taskSubCode = req.body.taskSubCode;
-      var postText = req.body.postText;
-      var postTags = req.body.postTags;
+      var post = new Post();
 
-      var postAuthor = "puneet.s.singh@oracle.com";
+      post.taskCode = req.body.taskCode;
+      post.taskSubCode = req.body.taskSubCode;
+      post.postText = req.body.postText;
+      //post.tags = req.body.postTags;
+
+      post.author = ObjectID(1);
+      post.created = new Date();
+      post.updated = new Date();
 
       var cleaned = [];
-      var tags_array = postTags.split(",");
+      var tags_array = req.body.postTags.split(",");
 
       for (var i = 0; i < tags_array.length; i++) {
          if((cleaned.indexOf(tags_array[i]) == -1) && tags_array[i] != "") {
@@ -41,16 +56,14 @@ module.exports = function(app, db) {
          }
       }
      
-      var doc = {
-                   "taskCode": taskCode,
-                   "taskSubCode": taskSubCode,
-                   "postText": postText,
-                   "tags" : cleaned,
-                   "author": postAuthor,
-                   "created": new Date(),
-                   "updated": new Date()
-                };
-      posts.createPost(doc, function(err, inserted) {
+      post.tags = cleaned;
+      
+      post.save(function(err, doc, noDocAffected) {
+         if (err) {
+            throw err;
+         } else {
+            console.log("pending impl...");
+         }
          console.log("redirection pending");
       });
 
@@ -62,7 +75,6 @@ module.exports = function(app, db) {
       var taskSubCode = req.body.taskSubCode;
       var postText = req.body.postText;
       var postTags = req.body.postTags;
-      var query = {_id: new ObjectID(req.params.id)};
  
     
       var cleaned = [];
@@ -74,30 +86,30 @@ module.exports = function(app, db) {
             cleaned.push(tags_array[i].replace(/\s/g,''));
          }
       }
-      posts.getPostByID(query, function(err, doc) {
-         if(!doc) {
-            console.log("No documents assigned for " + query);
-            return;
-         }
-         query._id = doc._id;
+      
+      var update = {
+                      "taskCode": req.body.taskCode,
+                      "taskSubCode": req.body.taskSubCode,
+                      "postText": req.body.postText,
+                      "tags": cleaned,
+                      "updated": new Date()
 
-         doc.taskCode = taskCode;
-         doc.taskSubCode = taskSubCode;
-         doc.postText = postText;
-         doc.tags = cleaned;
-         doc.updated = new Date();
+                   };
 
-         posts.updatePost(query, doc, function(err, updated) {
-            console.log("Successfully updated " + updated + " document!");
-         });
-         res.redirect("/posts");
-      }); 
+      Post.findByIdAndUpdate(req.params.id, update, function(err, doc) {
+        if(err) throw err;
+        console.log(doc + "updated");
+        res.redirect("/posts"); 
+      });
    });
 
+   /**
+   * DELETE a post from post list
+   **/
    app.delete("/post/:id", function(req, res, next) {
       "use strict";
-       var query = {_id: new ObjectID(req.params.id)};
-       posts.deletePost(query, function(err, removed) {
+       Post.findByIdAndRemove(req.params.id, function(err) {
+          if (err) throw err;
           console.log("redirection pending");
        });
    });
