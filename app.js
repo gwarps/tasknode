@@ -52,28 +52,27 @@ process.on('SIGINT', function() {
 
 
 
-MongoClient.connect(CONNECT_STRING, function(err, db) {
   // setup view engine
-   app.set('views', path.join(__dirname, 'views'));
-   app.set('view engine', 'jade');
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
    
-   app.use(logger('dev'));
-   app.use(bodyParser.json());
-   app.use(bodyParser.urlencoded({extended: true}));
-   app.use(require('stylus').middleware(path.join(__dirname, 'public')));
-   app.use(express.static(path.join(__dirname, 'public')));
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(require('stylus').middleware(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
-   app.use(cookieParser('secret'));
-   app.use(session({ 
-      cookie: { maxAge: 60000 },
-      resave: true,
-      saveUninitialized: true,
-      secret: "reptile"
-   }));
-   app.use(flash());   
+app.use(cookieParser('secret'));
+app.use(session({ 
+   cookie: { maxAge: 60000 },
+   resave: true,
+   saveUninitialized: true,
+   secret: "reptile"
+}));
+app.use(flash());   
 
 
-   routes(app, db);
+routes(app);
    
    // setting resourceful routes
    //app.use('/', index);
@@ -83,21 +82,21 @@ MongoClient.connect(CONNECT_STRING, function(err, db) {
    //  res.send('Hello World');
    //});
    
-   if (app.get('env') === 'development') {
-      app.use(function(err, req, res, next) {
-         res.status(err.status || 500);
-         res.render('error', {
-             message: err.message,
-             error: err
-         });
+if (app.get('env') === 'development') {
+   app.use(function(err, req, res, next) {
+      res.status(err.status || 500);
+      res.render('error', {
+         message: err.message,
+         error: err
       });
-    
-      app.locals.pretty = true;
-   }
-
-
-   var server = app.listen(server_port, server_ip_address,  function() {
-      //console.log('Listening on port %d', server.address().port);
-      console.log("Listening on " + server_ip_address + ", server_port " + server_port);
    });
+    
+   app.locals.pretty = true;
+}
+
+
+var server = app.listen(server_port, server_ip_address,  function() {
+   //console.log('Listening on port %d', server.address().port);
+   console.log("Listening on " + server_ip_address + ", server_port " + server_port);
 });
+

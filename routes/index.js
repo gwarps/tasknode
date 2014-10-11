@@ -1,6 +1,6 @@
-module.exports = exports = function(app, db) {
-   require("./tasks")(app, db);
-   require("./posts")(app, db);
+module.exports = exports = function(app) {
+   require("./tasks")(app);
+   require("./posts")(app);
 
    app.get("/", function(req, res) {
       //var er = req.flash("error", "it worked");

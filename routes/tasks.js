@@ -1,7 +1,7 @@
 var Task = require("../models/task");
 
 
-module.exports = function(app, db) {
+module.exports = function(app) {
 
    app.get("/tasks", function(req, res, next) {
       Task.find({}, function(err, docs) {
