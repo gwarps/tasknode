@@ -1,10 +1,8 @@
-var PostsDAO = require("../dao/posts").PostsDAO;
 var ObjectID = require('mongodb').ObjectID;
 
 var Post = require('../models/post');
 
-module.exports = function(app, db) {
-   var posts = new PostsDAO(db);
+module.exports = function(app) {
    /**
    * GET all posts
    **/
