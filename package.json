@@ -1,6 +1,7 @@
 { 
   "name": "appmr",
-  "description": "appraisal entry app",
+  "owner": "Puneet Singh",
+  "description": "sample crud app",
   "version": "0.0.1",
   "private": true,
   "dependencies": {
@@ -21,10 +22,14 @@
     "passport-local": "1.0.0",
     "mongoose": "3.8.17"
   },
+  "devDependencies" : {
+     "jslint": "0.6.4"
+  },
   "scripts" : {
     "start" : "node app.js",
     "test1" : "node_modules/mocha/bin/mocha -w",
-    "test" : "node_modules/mocha/bin/mocha"
+    "test" : "node_modules/mocha/bin/mocha",
+    "lintm" : "node_modules/jslint/bin/jslint.js 'models/*js'"
   },
   "main" : "app.js"
 }
