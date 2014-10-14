@@ -29,7 +29,8 @@
     "start" : "node app.js",
     "test1" : "node_modules/mocha/bin/mocha -w",
     "test" : "node_modules/mocha/bin/mocha",
-    "lintm" : "node_modules/jslint/bin/jslint.js 'models/*js'"
+    "lintm" : "node_modules/jslint/bin/jslint.js 'models/*js'",
+    "lintr" : "node_modules/jslint/bin/jslint.js 'routes/*js'"
   },
   "main" : "app.js"
 }
