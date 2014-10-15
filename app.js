@@ -7,6 +7,7 @@ var flash = require('connect-flash');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var mongoose = require('mongoose');
+var passport = require('passport');
 
 
 // Customized for openshift
@@ -63,25 +64,23 @@ app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cookieParser('secret'));
+
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(session({ 
    cookie: { maxAge: 60000 },
    resave: true,
    saveUninitialized: true,
    secret: "reptile"
 }));
+
+
+
 app.use(flash());   
 
 
-routes(app);
-   
-   // setting resourceful routes
-   //app.use('/', index);
-   //app.use('/task', task);
-   
-   //app.get('/', function(req, res){
-   //  res.send('Hello World');
-   //});
-   
+routes(app, passport);
+
 if (app.get('env') === 'development') {
    app.use(function(err, req, res, next) {
       res.status(err.status || 500);

@@ -1,5 +1,6 @@
-module.exports = exports = function (app) {
+module.exports = exports = function (app, passport) {
     "use strict";
+    require("./passport")(app, passport);
     require("./tasks")(app);
     require("./posts")(app);
 
