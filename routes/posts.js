@@ -66,10 +66,7 @@ module.exports = function (app) {
     });
 
     app.post("/post/edit/:id", function (req, res, next) {
-        var taskCode = req.body.taskCode,
-            taskSubCode = req.body.taskSubCode,
-            postText = req.body.postText,
-            postTags = req.body.postTags,
+        var postTags = req.body.postTags,
             cleaned = [],
             tags_array,
             i,
