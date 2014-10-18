@@ -4,14 +4,19 @@ module.exports = function (app, passport) {
         res.render('login');
     });
 
+    app.post('/login', passport.authenticate('local-login', { successRedirect: '/',
+                                                              failureRedirect: '/login',
+                                                              failureFlash: true})
+        );
+
     app.get('/signup', function (req, res) {
         res.render('signup', { message: req.flash('Welcome to tasknode signup'),
                                userinfo: req.userinfo });
     });
 
-    app.post('/signup', 
+    app.post('/signup',
         passport.authenticate('signup', { successRedirect: '/',
                                                 failureRedirect: '/signup',
                                                 failureFlash: true})
-    );
+        );
 };
