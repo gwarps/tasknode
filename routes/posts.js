@@ -8,101 +8,128 @@ module.exports = function (app) {
     * GET all posts
     **/
     app.get("/posts", function (req, res, next) {
-        Post.find({}, function (err, docs) {
-            if (err) { throw err; }
-            res.render("posts", {"posts": docs});
-        });
+        if (req.isAuthenticated()) {
+            Post.find({}, function (err, docs) {
+                if (err) { throw err; }
+                res.render("posts", {"posts": docs,
+                           userinfo: req.userinfo});
+            });
+        } else {
+            req.flash('info', 'Oops !! You need to login first to view this page.');
+            res.redirect('/login');
+        }
     });
 
     /**
     * GET a post by id, where id is object id (_id)
     **/
     app.get("/post/edit/:id", function (req, res, next) {
-        var query = {_id: req.params.id};
+        if (req.isAuthenticated()) {
 
-        Post.findOne(query, function (err, doc) {
-            if (err) { throw err; }
+            var query = {_id: req.params.id};
 
-            doc.tags = doc.tags.join().toString();
-            res.render("post_edit", {"post" : doc});
-        });
+            Post.findOne(query, function (err, doc) {
+                if (err) { throw err; }
+
+                doc.tags = doc.tags.join().toString();
+                res.render("post_edit", {"post" : doc,
+                                         userinfo: req.userinfo});
+            });
+        } else {
+            req.flash('info', 'Oops !! You need to login first to view this page.');
+            res.redirect('/login');
+        }
     });
 
     /**
     * POST data for a post to create a post
     **/
     app.post("/post", function (req, res, next) {
-        var post = new Post(),
-            cleaned = [],
-            tags_array = req.body.postTags.split(","),
-            i;
+        if (req.isAuthenticated()) {
 
-        post.taskCode = req.body.taskCode;
-        post.taskSubCode = req.body.taskSubCode;
-        post.postText = req.body.postText;
-        //post.tags = req.body.postTags;
+            var post = new Post(),
+                cleaned = [],
+                tags_array = req.body.postTags.split(","),
+                i;
 
-        post.author = new ObjectID(1);
-        post.created = new Date();
-        post.updated = new Date();
+            post.taskCode = req.body.taskCode;
+            post.taskSubCode = req.body.taskSubCode;
+            post.postText = req.body.postText;
+            //post.tags = req.body.postTags;
+
+            post.author = new ObjectID(1);
+            post.created = new Date();
+            post.updated = new Date();
 
 
-        for (i = 0; i < tags_array.length; i += 1) {
-            if ((cleaned.indexOf(tags_array[i]) === -1) && tags_array[i] !== "") {
-                cleaned.push(tags_array[i].replace(/\s/g, ''));
+            for (i = 0; i < tags_array.length; i += 1) {
+                if ((cleaned.indexOf(tags_array[i]) === -1) && tags_array[i] !== "") {
+                    cleaned.push(tags_array[i].replace(/\s/g, ''));
+                }
             }
+
+            post.tags = cleaned;
+
+            post.save(function (err, doc, noDocAffected) {
+                if (err) {
+                    throw err;
+                }
+                console.log("pending impl...");
+                console.log("redirection pending");
+            });
+        } else {
+            req.flash('info', 'Oops !! You need to login first to view this page.');
+            res.redirect('/login');
         }
-
-        post.tags = cleaned;
-
-        post.save(function (err, doc, noDocAffected) {
-            if (err) {
-                throw err;
-            }
-            console.log("pending impl...");
-            console.log("redirection pending");
-        });
-
     });
 
     app.post("/post/edit/:id", function (req, res, next) {
-        var postTags = req.body.postTags,
-            cleaned = [],
-            tags_array,
-            i,
-            update;
+        if (req.isAuthenticated()) {
+            var postTags = req.body.postTags,
+                cleaned = [],
+                tags_array,
+                i,
+                update;
 
-        tags_array = postTags.split(",");
+            tags_array = postTags.split(",");
 
-        for (i = 0; i < tags_array.length; i += 1) {
-            if ((cleaned.indexOf(tags_array[i]) === -1) && tags_array[i] !== "") {
-                cleaned.push(tags_array[i].replace(/\s/g, ''));
+            for (i = 0; i < tags_array.length; i += 1) {
+                if ((cleaned.indexOf(tags_array[i]) === -1) && tags_array[i] !== "") {
+                    cleaned.push(tags_array[i].replace(/\s/g, ''));
+                }
             }
+
+            update = {
+                "taskCode": req.body.taskCode,
+                "taskSubCode": req.body.taskSubCode,
+                "postText": req.body.postText,
+                "tags": cleaned,
+                "updated": new Date()
+            };
+
+            Post.findByIdAndUpdate(req.params.id, update, function (err, doc) {
+                if (err) { throw err; }
+                console.log(doc + "updated");
+                res.redirect("/posts");
+            });
+        } else {
+            req.flash('info', 'Oops !! You need to login first to view this page.');
+            res.redirect('/login');
         }
-
-        update = {
-            "taskCode": req.body.taskCode,
-            "taskSubCode": req.body.taskSubCode,
-            "postText": req.body.postText,
-            "tags": cleaned,
-            "updated": new Date()
-        };
-
-        Post.findByIdAndUpdate(req.params.id, update, function (err, doc) {
-            if (err) { throw err; }
-            console.log(doc + "updated");
-            res.redirect("/posts");
-        });
     });
 
     /**
     * DELETE a post from post list
     **/
     app.delete("/post/:id", function (req, res, next) {
-        Post.findByIdAndRemove(req.params.id, function (err) {
-            if (err) { throw err; }
-            console.log("redirection pending");
-        });
+        if (req.isAuthenticated()) {
+            Post.findByIdAndRemove(req.params.id, function (err) {
+                if (err) { throw err; }
+                console.log("redirection pending");
+            });
+        } else {
+            res.redirect('/login');
+        }
     });
 
 };
