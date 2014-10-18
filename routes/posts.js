@@ -9,7 +9,7 @@ module.exports = function (app) {
     **/
     app.get("/posts", function (req, res, next) {
         if (req.isAuthenticated()) {
-            Post.find({}, function (err, docs) {
+            Post.find({ author: req.user._id }, function (err, docs) {
                 if (err) { throw err; }
                 res.render("posts", {"posts": docs,
                            userinfo: req.userinfo});
@@ -26,7 +26,7 @@ module.exports = function (app) {
     app.get("/post/edit/:id", function (req, res, next) {
         if (req.isAuthenticated()) {
 
-            var query = {_id: req.params.id};
+            var query = { _id: req.params.id, author: req.user._id };
 
             Post.findOne(query, function (err, doc) {
                 if (err) { throw err; }
@@ -57,7 +57,7 @@ module.exports = function (app) {
             post.postText = req.body.postText;
             //post.tags = req.body.postTags;
 
-            post.author = new ObjectID(1);
+            post.author = req.user._id;
             post.created = new Date();
             post.updated = new Date();
 
@@ -89,7 +89,10 @@ module.exports = function (app) {
                 cleaned = [],
                 tags_array,
                 i,
+                query,
                 update;
+
+            query = {_id: req.params.id, author: req.user._id};
 
             tags_array = postTags.split(",");
 
@@ -107,9 +110,9 @@ module.exports = function (app) {
                 "updated": new Date()
             };
 
-            Post.findByIdAndUpdate(req.params.id, update, function (err, doc) {
+            Post.update(query, update, function (err, docsAffected) {
                 if (err) { throw err; }
-                console.log(doc + "updated");
+                console.log("total docs updated: " + docsAffected);
                 res.redirect("/posts");
             });
         } else {
@@ -123,9 +126,11 @@ module.exports = function (app) {
     **/
     app.delete("/post/:id", function (req, res, next) {
         if (req.isAuthenticated()) {
-            Post.findByIdAndRemove(req.params.id, function (err) {
+            var query = {_id: req.params.id, author: req.user._id};
+            Post.remove(query, function (err, docsDeleted) {
                 if (err) { throw err; }
-                console.log("redirection pending");
+                console.log("AJAX request, so no redirection");
+                console.log("total no. of docs deleted: " + docsDeleted);
             });
         } else {
             res.redirect('/login');
