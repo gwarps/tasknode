@@ -7,7 +7,8 @@ var taskSchema = new Schema({
         taskSubCode: {type: String},
         taskDesc: {type: String},
         created: {type: Date},
-        updated: {type: Date}
+        updated: {type: Date},
+        author: {type: ObjectId}
     });
 
 module.exports = mongoose.model('Task', taskSchema);

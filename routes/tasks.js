@@ -1,12 +1,11 @@
 var Task = require("../models/task");
 
 
-module.exports = function (app) {
+module.exports = function (app, passport) {
     "use strict";
     app.get("/tasks", function (req, res, next) {
-
         if (req.isAuthenticated()) {
-            Task.find({}, function (err, docs) {
+            Task.find({ author: req.user._id }, function (err, docs) {
                 if (err) { throw err; }
                 res.render("tasks", {"tasks": docs, 
                                       message: req.flash('info'),
@@ -20,7 +19,7 @@ module.exports = function (app) {
 
     app.get("/task/:id", function (req, res, next) {
         if (req.isAuthenticated()) {
-            var query = {_id: req.params.id};
+            var query = {_id: req.params.id, author: req.user._id};
             Task.findOne(query, function (err, doc) {
                 if (err) { throw err; }
                 res.render("task", {"task": doc,
@@ -41,6 +40,7 @@ module.exports = function (app) {
             task.taskDesc = req.body.taskDescription;
             task.created = new Date();
             task.updated = new Date();
+            task.author = req.user._id
 
             //console.log(task);
 
@@ -65,8 +65,10 @@ module.exports = function (app) {
    **/
     app.delete("/task/:id", function (req, res, next) {
         if (req.isAuthenticated()) {
-            Task.findByIdAndRemove(req.params.id, function (err) {
+            var query = {_id: req.params.id, author: req.user._id};
+            Task.remove(query, function (err, docsDeleted) {
                 if (err) { throw err; }
+                console.log("total docs deleted: " + docsDeleted);
                 console.log("redirection pending again");
             });
         } else {

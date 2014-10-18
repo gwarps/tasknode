@@ -65,8 +65,8 @@ module.exports = function (passport) {
                                                    passwordField: 'password',
                                                    passReqToCallback: true },
     function (req, email, password, done) {
-        console.log("reaching here");
         User.findOne({'email': email}, function (err, user) {
+            //console.log(user);
             if (err) { return done(err); }
             if (!user) {
                 return done(null, false, req.flash('info', 'No user found'));
