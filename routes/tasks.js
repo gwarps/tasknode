@@ -4,10 +4,18 @@ var Task = require("../models/task");
 module.exports = function (app) {
     "use strict";
     app.get("/tasks", function (req, res, next) {
-        Task.find({}, function (err, docs) {
-            if (err) { throw err; }
-            res.render("tasks", {"tasks": docs, message: req.flash('info')});
-        });
+
+        if (req.isAuthenticated()) {
+            Task.find({}, function (err, docs) {
+                if (err) { throw err; }
+                res.render("tasks", {"tasks": docs, 
+                                      message: req.flash('info'),
+                                      userinfo: req.userinfo});
+            });
+        } else {
+            req.flash('info', 'Oops !! You need to login first to view this page.');
+            res.redirect('/login');
+        }
     });
 
     app.get("/task/:id", function (req, res, next) {
