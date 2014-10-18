@@ -18,7 +18,7 @@ module.exports = exports = function (app, passport) {
     });
 
     require("./passport")(app, passport);
-    require("./tasks")(app);
+    require("./tasks")(app, passport);
     require("./posts")(app);
 
 
