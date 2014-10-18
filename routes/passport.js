@@ -5,7 +5,8 @@ module.exports = function (app, passport) {
     });
 
     app.get('/signup', function (req, res) {
-        res.render('signup', { message: req.flash('Welcome to tasknode signup') });
+        res.render('signup', { message: req.flash('Welcome to tasknode signup'),
+                               userinfo: req.userinfo });
     });
 
     app.post('/signup', 
