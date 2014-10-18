@@ -24,8 +24,8 @@ if(process.env.OPENSHIFT_MONGODB_DB_URL) {
    MONGO_SERVER_URL = process.env.OPENSHIFT_MONGODB_DB_URL;
 }
 
-var DB_INSTANCE = "journal"
-var CONNECT_STRING = MONGO_SERVER_URL + "/" + DB_INSTANCE;
+var DB_INSTANCE = 'journal';
+var CONNECT_STRING = MONGO_SERVER_URL + '/' + DB_INSTANCE;
 
 var app = express();
 var routes = require('./routes');
