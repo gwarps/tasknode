@@ -8,7 +8,9 @@ module.exports = function (app, passport) {
             req.flash('info', 'You are already authenticated. Please logout first to login.');
             res.redirect('/');
         } else {
-            res.render('login');
+            console.log(req);
+            res.render('login', { userinfo: req.userinfo,
+                                  message: req.flash('info') });
         }
     });
 
