@@ -6,7 +6,6 @@ module.exports = exports = function (app, passport) {
 
 
     app.use(function (req, res, next) {
-        //console.log(req.user);
         req.userinfo = {};
         if (req.user === undefined) {
             req.userinfo.isPresent = false;
