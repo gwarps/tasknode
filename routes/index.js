@@ -30,7 +30,7 @@ module.exports = exports = function (app, passport) {
     });
 
     app.get("/docs", function (req, res) {
-        res.render('docs');
+        res.render('docs', {userinfo: req.userinfo});
     });
 
     app.get('/flash', function (req, res) {
