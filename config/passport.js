@@ -27,7 +27,7 @@ module.exports = function (passport) {
     * by default if there is no name, it will called "local"
     **/
 
-    passport.local(new LocalStrategy({
+    passport.use('signup', new LocalStrategy({
         usernameField: 'email',
         passwordField: 'password',
         passReqToCallback : true // allows us to pass back the entire request to the callback
@@ -36,16 +36,21 @@ module.exports = function (passport) {
             // asynchronous
             // User.findOne wont fire unless data sent back
             process.nextTick(function () {
-                User.findOne({'local.email': email}, function (err, user) {
+                User.findOne({'email': email}, function (err, user) {
                     // if any error, return the error
                     if (err) { return done(err); }
                     // check if already a user with that email
                     if (user) {
-                        return done(null, false, req.flash('signUpMessage', 'This email is already taken.'));
+                        return done(null, false, req.flash('info', 'This email is already taken.'));
                     }
                     var newUser = new User();
-                    newUser.local.email = email;
-                    newUser.local.password = newUser.generateHash(password);
+                    newUser.email = email;
+                    newUser.password = newUser.generateHash(password);
+                    
+                    newUser.firstName = req.body.firstName;
+                    newUser.lastName = req.body.lastName;
+                    newUser.gender = req.body.inputGender;
+                    newUser.country = req.body.country;
 
                     newUser.save(function (err) {
                         if (err) { throw err; }

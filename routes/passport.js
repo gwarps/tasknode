@@ -5,6 +5,12 @@ module.exports = function (app, passport) {
     });
 
     app.get('/signup', function (req, res) {
-        res.render('signup');
+        res.render('signup', { message: req.flash('Welcome to tasknode signup') });
     });
+
+    app.post('/signup', 
+        passport.authenticate('signup', { successRedirect: '/',
+                                                failureRedirect: '/signup',
+                                                failureFlash: true})
+    );
 };

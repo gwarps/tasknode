@@ -8,23 +8,23 @@ block main_content
                h3
                   span(class="glyphicon glyphicon-lock")
                   span(class="login-lock") Signup
-               form(class="form-horizontal" role="form")
+               form(class="form-horizontal" role="form" action="/signup" method="post")
                   div(class="form-group")
                      label(for="inputEmail" class="col-sm-3 control-label") Email
                      div(class="col-sm-9")
-                        input(type="email" class="form-control" id="inputEmail" placeholder="Email")
+                        input(type="email" class="form-control" id="inputEmail" placeholder="Email" name="email")
                   div(class="form-group")
                      label(for="inputPassword" class="col-sm-3 control-label") Password
                      div(class="col-sm-9")
-                        input(type="password" class="form-control" id="inputPassword" placeholder="Password")
+                        input(type="password" class="form-control" id="inputPassword" placeholder="Password" name="password")
                   div(class="form-group")
                      label(for="inputFirstName" class="col-sm-3 control-label") First Name
                      div(class="col-sm-9")
-                        input(type="email" class="form-control" id="inputFirstName" placeholder="First Name")
+                        input(type="text" class="form-control" id="inputFirstName" placeholder="First Name" name="firstName")
                   div(class="form-group")
                      label(for="inputLastName" class="col-sm-3 control-label") Last Name
                      div(class="col-sm-9")
-                        input(type="email" class="form-control" id="inputLastName" placeholder="Last Name")
+                        input(type="text" class="form-control" id="inputLastName" placeholder="Last Name" name="lastName")
                   div(class="form-group")
                      label(for="inputGender" class="col-sm-3 control-label") Gender
                      div(class="col-sm-9")
@@ -35,7 +35,7 @@ block main_content
                            input(type="radio" name="inputGender" id="inputGenderFemale" value="F")
                            | Female
                   div(class="form-group")
-                     label(for="inputCountryr" class="col-sm-3 control-label") Country
+                     label(for="inputCountry" class="col-sm-3 control-label") Country
                      div(class="col-sm-9")
-                        input(type="email" class="form-control" id="inputCountry" placeholder="Country")
+                        input(type="text" class="form-control" id="inputCountry" placeholder="Country" name="country")
                   button(type="submit" class="btn btn-primary") Sign-up

@@ -44,6 +44,7 @@ mongoose.connection.on('disconnected', function () {
    console.log('Mongoose default connection disconnected');
 });
 
+
 process.on('SIGINT', function() {
    mongoose.connection.close(function () {
       console.log('Mongoose default connection disconnected through app termination');
@@ -65,20 +66,21 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cookieParser('secret'));
 
-app.use(passport.initialize());
-app.use(passport.session());
 app.use(session({ 
    cookie: { maxAge: 60000 },
    resave: true,
    saveUninitialized: true,
    secret: "reptile"
 }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 
 app.use(flash());   
 
 
+require('./config/passport')(passport);
 routes(app, passport);
 
 if (app.get('env') === 'development') {
