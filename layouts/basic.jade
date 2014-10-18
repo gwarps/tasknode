@@ -5,7 +5,7 @@ html(lang="en")
   meta(http-equiv='X-UA-Compatible', content='IE=edge')
   meta(name='viewport', content='width=device-width, initial-scale=1')
 
-  title #{title] - My Site
+  title #{title] - TaskNode
   link(rel='stylesheet', href='/stylesheets/bootstrap/bootstrap.min.css')
   link(rel='stylesheet', href='/stylesheets/custom.css')
 
@@ -26,6 +26,22 @@ html(lang="en")
             a(href="/tasks") Tasks
           li
             a(href="/posts") Posts
+          li
+        if userinfo.isPresent
+          ul(class="nav navbar-nav navbar-right")
+            li(class="dropdown")
+              a(href="#" class="dropdown-toggle" data-toggle="dropdown") #{userinfo.email}
+                span(class="caret")
+              ul(class="dropdown-menu" role="menu")
+                li
+                  a(href="#") Logout
+        else
+          ul(class="nav navbar-nav navbar-right")
+            li
+              a(href="#" class="btn btn-link") Login
+            li
+              a(href="#" class="btn btn-link") Signup
+          
     
    if message && message.length
      div(class="page-header text-center")
@@ -34,8 +50,8 @@ html(lang="en")
      div(class="container")
        //if message && message.length
        div(class="jumbotron")
-         h1 This is sample page
-         p This example is a quick exercise to illustrate how the default, static and fixed to top navbar work.
+         h1 Welcome to TaskNode
+         p This app is still in BETA Phase.
 
    script(type='text/javascript', src='/javascripts/jquery/1.11.1/jquery.min.js')
    script(type='text/javascript', src='/javascripts/bootstrap/bootstrap.min.js')
