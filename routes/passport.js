@@ -35,6 +35,16 @@ module.exports = function (app, passport) {
                                                 failureFlash: true})
         );
 
+    app.get('/logout', function(req, res) {
+        if (req.isAuthenticated()) {
+            req.logout();
+            req.flash('info', 'Logged out successfully.');
+            res.redirect('/');
+        } else {
+            req.flash('info', 'Oops !! Seems like you never logged in.');
+            res.redirect('/');
+        }
+    });
 
     /**
     * Utility function for authentication check
