@@ -2,3 +2,4 @@
 *.swo
 *~
 npm-debug.log
+bower_components

@@ -1,0 +1,19 @@
+{
+  "name": "tasknode",
+  "main": "app.js",
+  "version": "0.0.2",
+  "homepage": "https://github.com/touchps/tasknode",
+  "authors": [
+    "touchps <puneet.mir@gmail.com>"
+  ],
+  "description": "Simple Task Entry",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
