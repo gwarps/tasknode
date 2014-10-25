@@ -62,8 +62,8 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(require('stylus').middleware(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(require('stylus').middleware(path.join(__dirname, 'bower_components')));
+app.use(express.static(path.join(__dirname, 'bower_components')));
 
 app.use(cookieParser('secret'));
 
