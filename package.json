@@ -21,11 +21,12 @@
     "passport": "0.2.1",
     "passport-local": "1.0.0",
     "mongoose": "3.8.17",
-    "bcrypt-nodejs": "latest",
-    "grunt": "latest"
+    "bcrypt-nodejs": "latest"
   },
   "devDependencies": {
-    "jslint": "0.6.4"
+    "jslint": "0.6.4",
+    "grunt": "latest",
+    "grunt-cli": "latest"
   },
   "scripts": {
     "start": "node app.js",
