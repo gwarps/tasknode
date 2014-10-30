@@ -68,7 +68,7 @@ app.use(express.static(path.join(__dirname, 'bower_components')));
 app.use(cookieParser('secret'));
 
 app.use(session({ 
-   cookie: { maxAge: 60000 },
+   //cookie: { maxAge: 60000 },
    resave: true,
    saveUninitialized: true,
    secret: "reptile"
