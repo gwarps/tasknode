@@ -1,8 +1,6 @@
 module.exports = function (app, passport) {
     "use strict";
 
-    
-
     app.get('/login', function (req, res) {
         if (req.isAuthenticated()) {
             req.flash('info', 'You are already authenticated. Please logout first to login.');
@@ -34,7 +32,7 @@ module.exports = function (app, passport) {
                                                 failureFlash: true})
         );
 
-    app.get('/logout', function(req, res) {
+    app.get('/logout', function (req, res) {
         if (req.isAuthenticated()) {
             req.logout();
             req.flash('info', 'Logged out successfully.');

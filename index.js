@@ -6,91 +6,94 @@ var Server = mongo.Server;
 
 
 var MONGO_SERVER_URL = "mongodb://slc05akl.us.oracle.com:27017";
-var DB_INSTANCE = "journal"
+var DB_INSTANCE = "journal";
 var CONNECT_STRING = MONGO_SERVER_URL + "/" + DB_INSTANCE;
 var ObjectID = mongo.ObjectID;
 
 var mongoclient = new MongoClient(new Server('localhost', 27017, {'native_parser' : true}));
 var db = mongoclient.db('journal');
 // get home page
-router.get('/', function(req, res) {
-   res.render('index', {title: 'Express'});
+router.get('/', function (req, res) {
+    "use strict";
+    res.render('index', {title: 'Express'});
 });
 
 
-router.get('/docs', function(req, res) {
-   res.render('docs');
+router.get('/docs', function (req, res) {
+    "use strict";
+    res.render('docs');
 });
 
 // Get a particular task details
-router.get('/task/:id', function(req, res) {
-   console.log('get task');
-   MongoClient.connect(CONNECT_STRING, function(err, db) {
-      if(err) throw err;
-      var query = {_id : new ObjectID(req.params.id)};
-      console.log(query);
-      db.collection("tasks").findOne(query, function(err, doc) {
-         if(err) throw err;
-         console.log(doc);
-         res.render("task", {"task" : doc}); 
-      }); 
-   });
+router.get('/task/:id', function (req, res) {
+    "use strict";
+    console.log('get task');
+    MongoClient.connect(CONNECT_STRING, function (err, db) {
+        if (err) { throw err; }
+        var query = {_id : new ObjectID(req.params.id)};
+        console.log(query);
+        db.collection("tasks").findOne(query, function (err, doc) {
+            if (err) { throw err; }
+            console.log(doc);
+            res.render("task", {"task" : doc});
+        });
+    });
 });
 
 // create a task
-router.post('/task', function(req, res, next) {
-   var taskCode = req.body.taskCode;
-   var taskSubCode = req.body.taskSubCode;
-   var taskDesc = req.body.taskDescription;
-   
-   MongoClient.connect(CONNECT_STRING, function(err, db) {
-      if(err) throw err;
-      var doc = {
-                   "taskCode": taskCode,
-                   "taskSubCode": taskSubCode,
-                   "taskDesc": taskDesc,
-                   "created": new Date(),
-                   "updated": new Date()
-                };
-      //console.log(doc);
-      db.collection('tasks').insert(doc, function(err, inserted) {
-         console.dir("Successfully Inserted: " + JSON.stringify(inserted));
+router.post('/task', function (req, res, next) {
+    "use strict";
+    var taskCode = req.body.taskCode,
+        taskSubCode = req.body.taskSubCode,
+        taskDesc = req.body.taskDescription;
 
-      });
-   });
-   
-   
+    MongoClient.connect(CONNECT_STRING, function (err, db) {
+        if (err) { throw err; }
+        var doc = {
+                "taskCode": taskCode,
+                "taskSubCode": taskSubCode,
+                "taskDesc": taskDesc,
+                "created": new Date(),
+                "updated": new Date()
+            };
+        //console.log(doc);
+        db.collection('tasks').insert(doc, function (err, inserted) {
+            console.dir("Successfully Inserted: " + JSON.stringify(inserted));
+
+        });
+    });
 });
 
 //delete a task
-router.delete('/task/:id', function(req, res, next) {
-   console.log("delete");
-   MongoClient.connect(CONNECT_STRING, function(err, db) {
-      if(err) throw err;
-      var query = {_id: new ObjectID(req.params.id)};
-      db.collection("tasks").remove(query, function(err, removed) {
-         if(err) throw err;
-         console.log("Successfully removed " + removed + " documents!");
-         return db.close();
-      });
-      
-   });
+router.delete('/task/:id', function (req, res, next) {
+    "use strict";
+    console.log("delete");
+    MongoClient.connect(CONNECT_STRING, function (err, db) {
+        if (err) { throw err; }
+        var query = {_id: new ObjectID(req.params.id)};
+        db.collection("tasks").remove(query, function (err, removed) {
+            if (err) { throw err; }
+            console.log("Successfully removed " + removed + " documents!");
+            return db.close();
+        });
+    });
 });
 
 
 //get all the tasks
-router.get('/tasks', function(req, res, next) {
-
-   MongoClient.connect(CONNECT_STRING, function(err, db) {
-      if(err) throw err;
-      var query = {};
-      var projection = {};
-      db.collection("tasks").find(query, projection).toArray(function(err, docs) {
-         if(err) throw err;
-         console.log(docs);
-         res.render("tasks", {"tasks" : docs});
-      });
-   });
+router.get('/tasks', function (req, res, next) {
+    "use strict";
+    MongoClient.connect(CONNECT_STRING, function (err, db) {
+        if (err) { throw err; }
+        var query = {},
+            projection = {};
+        db.collection("tasks").find(query, projection).toArray(function (err, docs) {
+            "use strict";
+            if (err) { throw err; }
+            console.log(docs);
+            res.render("tasks", {"tasks" : docs});
+        });
+    });
    //res.render('tasks');
 });
 

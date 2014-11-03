@@ -36,7 +36,8 @@
     "test": "node_modules/mocha/bin/mocha",
     "lintm": "node_modules/jslint/bin/jslint.js 'models/*js'",
     "lintr": "node_modules/jslint/bin/jslint.js 'routes/*js'",
-    "lintc": "node_modules/jslint/bin/jslint.js 'config/*js'"
+    "lintc": "node_modules/jslint/bin/jslint.js 'config/*js'",
+    "grunt": "node_modules/grunt-cli/bin/grunt"
   },
   "main": "app.js"
 }
