@@ -7,7 +7,7 @@ module.exports = function (app, passport) {
         if (req.isAuthenticated()) {
             Task.find({ author: req.user._id }, function (err, docs) {
                 if (err) { throw err; }
-                res.render("tasks", {"tasks": docs, 
+                res.render("tasks", {"tasks": docs,
                                       message: req.flash('info'),
                                       userinfo: req.userinfo});
             });
@@ -40,7 +40,7 @@ module.exports = function (app, passport) {
             task.taskDesc = req.body.taskDescription;
             task.created = new Date();
             task.updated = new Date();
-            task.author = req.user._id
+            task.author = req.user._id;
 
             //console.log(task);
 
