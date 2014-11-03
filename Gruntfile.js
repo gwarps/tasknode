@@ -18,12 +18,14 @@ module.exports = function (grunt) {
             server: {
                 src: grunt.file.expand(paths.js),
                 options: {
-                    edition: 'latest'
+                    edition: 'latest',
+                    failOnError: false
                 },
                 directives: {
                     node: true,
                     todo: true,
-                    nomen: true
+                    nomen: true,
+                    passfail: false
                 }
             }
         }

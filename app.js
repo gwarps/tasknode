@@ -96,7 +96,6 @@ if (app.get('env') === 'development') {
             message: err.message,
             error: err
         });
-        next();
     });
 
     app.locals.pretty = true;
