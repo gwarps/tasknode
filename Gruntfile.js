@@ -1,13 +1,13 @@
-"use strict"
+"use strict";
 
 
 var paths = {
-   js: ['*.js', '!bower_components/**', 'models/*.js', 'routes/*.js'],
-   jade: ['views/*'],
-   css: ['!bower_components/**', 'public/*.css']
-}
+        js: ['*.js', '!bower_components/**', 'models/*.js', 'routes/*.js'],
+        jade: ['views/*'],
+        css: ['!bower_components/**', 'public/*.css']
+    };
 
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 
     // Module load
     grunt.loadNpmTasks('grunt-jslint');
@@ -15,8 +15,17 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         'jslint' : {
-            server: grunt.file.expand(paths.js),
-            directives: { node: true, todo: true },
+            server: {
+                src: grunt.file.expand(paths.js),
+                options: {
+                    edition: 'latest'
+                },
+                directives: {
+                    node: true,
+                    todo: true,
+                    nomen: true
+                }
+            }
         }
     });
 /**
